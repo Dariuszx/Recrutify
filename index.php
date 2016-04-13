@@ -27,16 +27,16 @@ else {
                     <div class="col-md-7">
 
                         <!-- /.logo -->
-                        <div class="logo wow fadeInDown"> <a href=""><img src="src/resources/img/logo.png" alt="logo"></a></div>
+                        <div class="logo wow fadeInDown"> <a href=""><img src="src/resources/img/logo_white.png" alt="logo"></a></div>
 
                         <!-- /.main title -->
                         <h1 class="wow fadeInLeft">
-                            Beautiful High Converting Landing Page
+                            Lorem ipsum dolor sit amet
                         </h1>
 
                         <!-- /.header paragraph -->
                         <div class="landing-text wow fadeInUp">
-                            <p>Backyard is a modern and customizable landing page template designed to increase conversion of your product. Backyard is flexible to suit any kind of your business. Try now and join with our happy customers!</p>
+                            <p>Nunc fringilla, magna ultrices iaculis imperdiet, arcu neque dictum nulla, id sodales massa ante ac enim. Cras efficitur mattis nunc a tincidunt. Nam sagittis a tortor sed gravida. Cras eu est lobortis, consequat augue sed, bibendum nunc.</p>
                         </div>
 
                         <!-- /.header button -->
@@ -50,8 +50,8 @@ else {
                     <div class="col-md-5">
 
                         <div class="signup-header wow fadeInUp">
-                            <h3 class="form-title text-center">Rozpocznij</h3>
-                            <p style="color: greenyellow; font-size: 80%;text-align:center;"><?php echo $error; ?></p>
+                            <h3 class="form-title text-center"><b>Rozpocznij</b></h3>
+                            <p class="error-form"><?php echo $error; ?></p>
                             <form class="form-header" action="" role="form" method="POST" id="#">
                                 <input type="hidden" name="u" value="503bdae81fde8612ff4944435">
                                 <input type="hidden" name="id" value="bfdba52708">

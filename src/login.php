@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
         header("location: profile.php");
 
     } catch( Exception $e ) {
-//        $error = $e->getMessage(); //production
-        $error = $e; //dev
+        $error = $e->getMessage(); //production
+//        $error = $e; //dev
     }
 }

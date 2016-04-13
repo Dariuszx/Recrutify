@@ -22,16 +22,16 @@ include "src/templates/commons/header.html";
                     <div class="col-md-7">
 
                         <!-- /.logo -->
-                        <div class="logo wow fadeInDown"> <a href=""><img src="src/resources/img/logo.png" alt="logo"></a></div>
+                        <div class="logo wow fadeInDown"> <a href=""><img src="src/resources/img/logo_white.png" alt="logo"></a></div>
 
                         <!-- /.main title -->
                         <h1 class="wow fadeInLeft">
-                            Beautiful High Converting Landing Page
+                            Lorem ipsum dolor sit amet
                         </h1>
 
                         <!-- /.header paragraph -->
                         <div class="landing-text wow fadeInUp">
-                            <p>Backyard is a modern and customizable landing page template designed to increase conversion of your product. Backyard is flexible to suit any kind of your business. Try now and join with our happy customers!</p>
+                            <p>Nunc fringilla, magna ultrices iaculis imperdiet, arcu neque dictum nulla, id sodales massa ante ac enim. Cras efficitur mattis nunc a tincidunt. Nam sagittis a tortor sed gravida. Cras eu est lobortis, consequat augue sed, bibendum nunc.</p>
                         </div>
 
                         <!-- /.header button -->
@@ -45,10 +45,10 @@ include "src/templates/commons/header.html";
                     <div class="col-md-5">
 
                         <div class="signup-header wow fadeInUp">
-                            <h3 class="form-title text-center">Rozpocznij</h3>
-                            <p style="color: greenyellow; font-size: 80%;text-align:center;"><?php echo $error; ?></p>
 
-                            <form method="post" action="">
+                            <h3 class="form-title text-center"><b>Zarejestruj się</b></h3>
+                            <p class="error-form"><?php echo $error; ?></p>
+                            <form class="form-header" method="post" action="">
                                 <div class="form-group">
                                     <input class="form-control input-lg" type="text" name="username" placeholder="Nazwa użytkownika" required="required" value="<?php if(isset($_POST['username'])) echo $_POST['username']; ?>" />
                                 </div>
@@ -68,10 +68,11 @@ include "src/templates/commons/header.html";
                                     <a href="#" onclick="document.getElementById('captcha').src = 'src/lib/securimage/securimage_show.php?' + Math.random(); return false">Inny obrazek</a>
                                 </p>
                                 <div class="form-group">
-                                    <input class="form-control input-sm" type="text" name="captcha_code" size="10" maxlength="6" />
+                                    
+                                    <input class="form-control input-sm captcha-input" type="text" name="captcha_code" size="10" maxlength="6" />
                                 </div>
 
-                                <input type="submit" name="submit" class="btn btn-primary btn-block btn-large" value="Zarejestruj"  />
+                                <input type="submit" name="submit" class="btn btn-primary btn-block btn-large" value="Zarejestruj "  />
                             </form>
                             <p></p>
 

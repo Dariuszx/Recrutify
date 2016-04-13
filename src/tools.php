@@ -149,11 +149,11 @@ class UserData extends User {
     private function finalizeData() {
 
         if( strlen($this->nickname) > self::maxNicknameLength || strlen($this->nickname) < self::minNicknameLength) {
-            throw new Exception("Wrong length of nickname input field!");
+            throw new Exception("Nazwa użytkownika powinna składać się z minimalnie 5 i maksymalnie 20 znaków.");
         }
 
         if( strlen($this->password) > self::maxPasswordLength || strlen($this->password) < self::minPasswordLength) {
-            throw new Exception("Wrong length of password input field!");
+            throw new Exception("Niepoprawna długość hasła. Hasło powinno posiadać więcej niż 5 i mniej niż 20 znaków.");
         }
 
         $this->validateInputData($this->nickname);
@@ -163,12 +163,12 @@ class UserData extends User {
         $this->validateEmail($this->email);
         $this->validateNickname($this->nickname);
 
-        if($this->entropy($this->password) <= 2.5) throw new Exception("Your password is too easy!");
+        if($this->entropy($this->password) <= 2.5) throw new Exception("Twoje hasło jest za łatwe.");
 
         list($this->hash, $this->salt) = $this->saltPassword($this->password);
 
         if( empty($this->nickname) or empty($this->password) or empty($this->email) ) {
-            throw new Exception("You have to set every field of form!");
+            throw new Exception("Musisz wypełnić wszystkie pola formularza.");
         }
     }
 
@@ -189,7 +189,7 @@ class UserData extends User {
     public function finalizeLoginData() {
 
         if( empty($this->nickname) or empty($this->password) )
-            throw new Exception("Wrong nickname or password!");
+            throw new Exception("Niepoprawna nazwa użytkownika lub hasło.");
 
         $this->validateNickname($this->nickname);
 
@@ -200,10 +200,10 @@ class UserData extends User {
     public function changePassword($password) {
 
         if( strlen($password) > self::maxPasswordLength || strlen($password) < self::minPasswordLength) {
-            throw new Exception("Wrong length of password input field!");
+            throw new Exception("Niepoprawna długość hasła. Hasło powinno posiadać więcej niż 5 i mniej niż 20 znaków.");
         }
 
-        if($this->entropy($password) <= 2.5) throw new Exception("Your new password is too easy!");
+        if($this->entropy($password) <= 2.5) throw new Exception("Twoje hasło jest za łatwe.");
 
         list($this->hash, $this->salt) = $this->saltPassword($password);
 
@@ -235,8 +235,8 @@ class Database {
     }
 
     public function connect() {
-//        $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
-        $this->db = new mysqli('178.32.219.12', '1115718_SgQ', '1115718_SgQ', 'MhjOs4JJOJbhIq');
+        $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
+//        $this->db = new mysqli('178.32.219.12', '1115718_SgQ', '1115718_SgQ', 'MhjOs4JJOJbhIq');
 
         if (mysqli_connect_errno()) {
             throw new Exception("Failed to connect to MySQL: " . mysqli_connect_error());
@@ -258,10 +258,10 @@ class Database {
         $password_plain = $array['password_plain'];
 
         if( self::isUserExist($nickname) )
-            throw new Exception("Type another nickname, this one is already in use!");
+            throw new Exception("Wybrana nazwa użytkownika jest już w użyciu.");
 
         if( self::checkEmail($email) != -1 )
-            throw new Exception("Email is already in use!");
+            throw new Exception("Na podany adres email zarejestrowano już konto.");
 
         //dev
         $query = "INSERT INTO users (username, email, salt, password, password_plain) VALUES ('$nickname', '$email', '$salt', '$password', '$password_plain')";
@@ -510,7 +510,7 @@ class UserAccount {
 
             if( $user_id == -1 ) { //Wrong username
                 $this->addLoginAttempt(); //TODO
-                throw new Exception("Wrong username or password!");
+                throw new Exception("Niepoprawna nazwa użytkownika lub hasło.");
             } else return $user_id;
 
         } else {

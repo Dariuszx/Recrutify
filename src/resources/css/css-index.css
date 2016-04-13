@@ -153,15 +153,13 @@ a:hover {
 }
 
 .site-name img {
-	width: 150px; 
 	height: 37px
 }
 .logo {
 	margin: 100px 0 40px 0;
 }
 .logo img{
-	width: 150px; 
-	height: 37px
+	width: 150px;
 }
 .landing h1{
 	font-size: 56px;
