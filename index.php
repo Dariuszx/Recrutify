@@ -10,6 +10,7 @@ if(isset($_SESSION['user_id'])) {
 //If user is not logged in
 else {
     include "src/login.php";
+
     include "src/templates/commons/header.html";
 }
 ?>

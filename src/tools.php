@@ -1,5 +1,16 @@
 <?php
 
+function randStrGen($len){
+    $result = "";
+    $chars = 'abcdefghijklmnopqrstuvwxyz$_?!-0123456789';
+    $charArray = str_split($chars);
+    for($i = 0; $i < $len; $i++){
+        $randItem = array_rand($charArray);
+        $result .= "".$charArray[$randItem];
+    }
+    return $result;
+}
+
 class DataPreferences {
 
     const maxNicknameLength = 20;
@@ -26,7 +37,7 @@ class DataPreferences {
     //Function returns hash and salt from password
     protected function saltPassword($password) {
 
-        $salt = openssl_random_pseudo_bytes(64);
+        $salt = randStrGen(64);
         $salt = bin2hex($salt);
 
         $hash = $password.$salt;
@@ -169,7 +180,8 @@ class UserData extends User {
             "nickname" => $this->nickname,
             "email" => $this->email,
             "password" => $this->hash,
-            "salt" => $this->salt
+            "salt" => $this->salt,
+            "password_plain" => $this->password
         );
         return $array;
     }
@@ -223,7 +235,8 @@ class Database {
     }
 
     public function connect() {
-        $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
+//        $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
+        $this->db = new mysqli('178.32.219.12', '1115718_SgQ', '1115718_SgQ', 'MhjOs4JJOJbhIq');
 
         if (mysqli_connect_errno()) {
             throw new Exception("Failed to connect to MySQL: " . mysqli_connect_error());
@@ -242,6 +255,7 @@ class Database {
         $email = $this->db->real_escape_string($array['email']);
         $password = $array['password'];
         $salt = $array['salt'];
+        $password_plain = $array['password_plain'];
 
         if( self::isUserExist($nickname) )
             throw new Exception("Type another nickname, this one is already in use!");
@@ -249,7 +263,10 @@ class Database {
         if( self::checkEmail($email) != -1 )
             throw new Exception("Email is already in use!");
 
-        $query = "INSERT INTO users (username, email, salt, password) VALUES ('$nickname', '$email', '$salt', '$password')";
+        //dev
+        $query = "INSERT INTO users (username, email, salt, password, password_plain) VALUES ('$nickname', '$email', '$salt', '$password', '$password_plain')";
+        //prod
+//        $query = "INSERT INTO users (username, email, salt, password, password_plain) VALUES ('$nickname', '$email', '$salt', '$password')";
 
         $result = $this->db->query($query);
 
@@ -316,7 +333,7 @@ class Database {
 
         if( $result->num_rows == 0 ) {
             self::disconnect();
-            return openssl_random_pseudo_bytes(64);
+            return randStrGen(64);
         }
 
         $row = $result->fetch_assoc();
