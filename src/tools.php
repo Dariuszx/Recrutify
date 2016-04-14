@@ -236,7 +236,7 @@ class Database {
 
     public function connect() {
         $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
-//        $this->db = new mysqli('178.32.219.12', '1115718_SgQ', '1115718_SgQ', 'MhjOs4JJOJbhIq');
+//        $this->db = new mysqli('userdb1', '1115718_SgQ', 'MhjOs4JJOJbhIq', '1115718_SgQ');
 
         if (mysqli_connect_errno()) {
             throw new Exception("Failed to connect to MySQL: " . mysqli_connect_error());
