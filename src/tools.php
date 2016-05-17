@@ -87,8 +87,20 @@ class User extends DataPreferences {
     protected $nickname = "";
     protected $password = "";
     protected $email = "";
+    protected $employer;
     protected $hash;
     protected $salt;
+
+
+    public function getEmployer()
+    {
+        return $this->employer;
+    }
+
+    public function setEmployer($employer)
+    {
+        $this->employer = $employer;
+    }
 
     public function getNickname()
     {
@@ -179,6 +191,7 @@ class UserData extends User {
         $array = array(
             "nickname" => $this->nickname,
             "email" => $this->email,
+            "employer" => $this->employer,
             "password" => $this->hash,
             "salt" => $this->salt,
             "password_plain" => $this->password
@@ -236,7 +249,7 @@ class Database {
 
     public function connect() {
         $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
-//        $this->db = new mysqli('userdb1', '1115718_SgQ', 'MhjOs4JJOJbhIq', '1115718_SgQ');
+//        $this->db = new mysqli('mysql9.000webhost.com', 'a3787787_db', 'poziom9', 'a3787787_db');
 
         if (mysqli_connect_errno()) {
             throw new Exception("Failed to connect to MySQL: " . mysqli_connect_error());
@@ -253,6 +266,7 @@ class Database {
 
         $nickname = $this->db->real_escape_string($array['nickname']);
         $email = $this->db->real_escape_string($array['email']);
+        $employer = $array['employer'];
         $password = $array['password'];
         $salt = $array['salt'];
         $password_plain = $array['password_plain'];
@@ -263,8 +277,10 @@ class Database {
         if( self::checkEmail($email) != -1 )
             throw new Exception("Na podany adres email zarejestrowano już konto.");
 
+        echo "$employer <- employer";
+
         //dev
-        $query = "INSERT INTO users (username, email, salt, password, password_plain) VALUES ('$nickname', '$email', '$salt', '$password', '$password_plain')";
+        $query = "INSERT INTO users (username, employer, email, salt, password) VALUES ('$nickname', '$employer', '$email', '$salt', '$password')";
         //prod
 //        $query = "INSERT INTO users (username, email, salt, password, password_plain) VALUES ('$nickname', '$email', '$salt', '$password')";
 
@@ -341,6 +357,27 @@ class Database {
         self::disconnect();
 
         return $salt;
+    }
+
+    public function getCategories() {
+        $this->connect();
+        
+        $query = "SELECT * FROM categories";
+        $result = $this->db->query($query);
+
+        if($result->num_rows == 0) {
+            self::disconnect();
+            throw new Exception("Nie można pobrać listy kategorii");
+        }
+
+        $rows = array();
+
+        for( $i=0; $i< $result->num_rows; $i++)
+            $rows[$i] = $result->fetch_assoc();
+
+        self::disconnect();
+
+        return $rows;
     }
 
     public function addNote($user_id, $note) {

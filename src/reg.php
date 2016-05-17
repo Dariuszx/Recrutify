@@ -18,7 +18,11 @@ if (isset($_POST['submit'])) {
         $userData->setNickname($_POST['username']);
         $userData->setPassword($_POST['password1']);
         $userData->setEmail($_POST['email']);
-
+        
+        if(isset($_POST['employer']))
+            $userData->setEmployer(1);
+        else $userData->setEmployer(0);
+        
         $validatedData = $userData->getData();
 
         include_once 'lib/securimage/securimage.php';

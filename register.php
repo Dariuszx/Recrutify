@@ -14,37 +14,36 @@ include "src/templates/commons/header.html";
     <div id="top"></div>
 
     <!-- /.parallax full screen background image -->
-    <div class="fullscreen landing parallax" style="background-image:url('src/resources/img/bg.jpg');" data-img-width="2000" data-img-height="1333" data-diff="100">
+    <div class="fullscreen landing parallax" style="background-image:url('src/resources/img/bg3.jpg');" data-img-width="2000" data-img-height="1333" data-diff="100">
 
         <div class="overlay">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-7">
+                    <div class="col-md-8">
 
                         <!-- /.logo -->
                         <div class="logo wow fadeInDown"> <a href=""><img src="src/resources/img/logo_white.png" alt="logo"></a></div>
 
                         <!-- /.main title -->
                         <h1 class="wow fadeInLeft">
-                            Lorem ipsum dolor sit amet
+                            Witaj w Recrutify!
                         </h1>
 
                         <!-- /.header paragraph -->
-                        <div class="landing-text wow fadeInUp">
-                            <p>Nunc fringilla, magna ultrices iaculis imperdiet, arcu neque dictum nulla, id sodales massa ante ac enim. Cras efficitur mattis nunc a tincidunt. Nam sagittis a tortor sed gravida. Cras eu est lobortis, consequat augue sed, bibendum nunc.</p>
+                        <div class="landing-text wow fadeInLeft">
+                            <p>Recrutify to przyjazne miejsce, które pomoże ci w szybki i prosty sposób znaleźć wymarzoną pracę. Wystarczy się zarejestrować, wypełnić test wiedzy i czekać na telefon od przyszłego pracodawcy. Proste? A więc do dzieła!</p>
                         </div>
 
                         <!-- /.header button -->
                         <div class="head-btn wow fadeInLeft">
                             <a href="index.php" class="btn-primary">Zaloguj się</a>
                         </div>
-
                     </div>
 
                     <!-- /.signup form -->
-                    <div class="col-md-5">
+                    <div class="col-md-4">
 
-                        <div class="signup-header wow fadeInUp">
+                        <div class="signup-header wow">
 
                             <h3 class="form-title text-center"><b>Zarejestruj się</b></h3>
                             <p class="error-form"><?php echo $error; ?></p>
@@ -61,6 +60,9 @@ include "src/templates/commons/header.html";
                                 <div class="form-group">
                                     <input class="form-control input-lg" type="password" name="password2" placeholder="Powtórz hasło" required="required" />
                                 </div>
+                                <div class="form-group checkbox">
+                                    <label><input type="checkbox" name="employer">Pracodwaca</label>
+                                </div>
 
                                     <p style="text-align: center; margin: 5px 0px 0px 0px;"><img " id="captcha" src="src/lib/securimage/securimage_show.php" alt="CAPTCHA" /></p>
 
@@ -69,7 +71,7 @@ include "src/templates/commons/header.html";
                                 </p>
                                 <div class="form-group">
                                     
-                                    <input class="form-control input-sm captcha-input" type="text" name="captcha_code" size="10" maxlength="6" />
+                                    <input class="form-control input-sm captcha-input captcha-input" type="text" name="captcha_code" size="10" maxlength="6" />
                                 </div>
 
                                 <input type="submit" name="submit" class="btn btn-primary btn-block btn-large" value="Zarejestruj "  />

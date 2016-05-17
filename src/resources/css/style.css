@@ -1,3 +1,7 @@
+body {
+	/*overflow-y: hidden;*/
+	height: 100%;
+}
 
 .captcha-input {
 	width: 30%;
@@ -7,8 +11,26 @@
 }
 
 .error-form {
-	color: #ecb9b9 !important;
+	color: #e7c9c9 !important;
 	font-size: 100%;
 	font-weight: bold;
-	text-align:center;
+	text-align: center;
+}
+
+.form-header .form-control {
+	height: 40px;
+}
+
+.overlay {
+	overflow-y: hidden;
+}
+
+.captcha-input {
+	background: rgba(221,251,255,0.5) !important;
+	border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.checkbox label {
+	color: #fff;
+	text-align: left;
 }
