@@ -1,5 +1,5 @@
 <?php
-include_once("tools.php");
+include_once "tools.php";
 
 $error='';
 
@@ -23,8 +23,7 @@ if (isset($_POST['submit'])) {
 
         $userAccount = new UserAccount();
         $user_id = $userAccount->logIn($userData->getNickname(),$userData->getHash());
-
-        $database->addDevice($user_id);
+        
         $_SESSION['user_id'] = $user_id;
         $_SESSION['nickname'] = $userData->getNickname();
         header("location: profile.php");
