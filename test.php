@@ -22,8 +22,9 @@ try {
 include "src/templates/profile/header.html";
 ?>
 
+<!--<img class="test-image" src="src/resources/img/tester.png" />-->
 <div class="container">
-    <div class="panel panel-default">
+    <div class="panel panel-default row">
         <div class="panel-heading"><?php echo $test_title; ?></div>
         <div class="panel-body">
 
@@ -38,7 +39,7 @@ include "src/templates/profile/header.html";
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor magna, malesuada quis dapibus nec, condimentum eget lorem. Morbi nec ornare leo, et molestie ante. Sed laoreet nisi nec nisi varius sagittis. Nullam id dolor ut ligula commodo pellentesque. Maecenas a convallis ipsum. Integer quis facilisis nisi. Etiam scelerisque diam id nulla blandit lacinia. Mauris tempus fermentum risus, vitae maximus nunc commodo a.</p>
 
             <div style="text-align: center;">
-                <a href="#" class="btn btn-primary">Rozpocznij test</a>
+                <a href="start_test.php?test_id=<?php echo $category_id; ?>" class="btn btn-primary">Rozpocznij test</a>
             </div>
         </div>
     </div>

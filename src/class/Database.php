@@ -22,6 +22,13 @@ class Database {
         $this->db->close();
     }
 
+    public function executeSql($query) {
+        self::connect();
+        $result = $this->db->query($query);
+        self::disconnect();
+        return $result;
+    }
+
     public function insertUser($array) {
 
         $this->connect();
@@ -142,11 +149,11 @@ class Database {
         return $rows;
     }
 
-    private function parseRows($result) {
+    public function parseRows($result) {
         $rows = array();
 
         for( $i=0; $i< $result->num_rows; $i++)
-            $rows[$i] = $result->fetch_array();
+            $rows[$i] = $result->fetch_array(MYSQL_BOTH);
 
         return $rows;
     }
@@ -154,7 +161,7 @@ class Database {
     public function getQuestions($user_id, $test_id) {
 
         self::connect();
-        $query = "SELECT * FROM questions 
+        $query = "SELECT question_id FROM questions 
                     WHERE questions.question_id 
                     NOT IN (
                       SELECT answers.question_id 
@@ -191,7 +198,6 @@ class Database {
         self::disconnect();
         return $result->fetch_object()->name;
     }
-
 
     public function checkEmail($email) {
 
