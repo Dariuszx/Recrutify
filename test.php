@@ -9,9 +9,16 @@ $data = new DataPreferences();
 
 $category_id = $_GET['test_id'];
 $data->validateInputData($category_id);
-$questions = $db->getQuestions($_SESSION['user_id'], $category_id);
-$num_questions = $db->getNumQuestions($category_id);
-$answered_questions = $num_questions - count($questions);
+
+    $statCategory = $db->getCategoryAnswerStats($_SESSION['user_id'], $category_id);
+
+if ($statCategory->num_questions > 0) {
+    $num_answered_percentage = $statCategory->num_answered / $statCategory->num_questions * 100;
+    $num_questions_percentage = 100 - $num_answered_percentage;
+} else {
+    $num_answered_percentage = 0;
+    $num_questions_percentage = 100;
+}
 
 try {
     $test_title = $db->getCategoryName($category_id);
@@ -29,11 +36,11 @@ include "src/templates/profile/header.html";
         <div class="panel-body">
 
             <div class="progress">
-                <div class="progress-bar progress-bar-success" style="width: <?php echo ($answered_questions / $num_questions * 100)."%"; ?>">
-                    <?php echo ($answered_questions / $num_questions * 100)."% zrobione"; ?>
+                <div class="progress-bar progress-bar-success" style="width: <?php echo $num_answered_percentage."%"; ?>">
+                    <?php echo $num_answered_percentage."% zrobione"; ?>
                 </div>
-                <div class="progress-bar progress-bar-danger" style="width: <?php echo (($num_questions - $answered_questions) / $num_questions * 100)."%"; ?>">
-                    <?php echo (($num_questions - $answered_questions) / $num_questions * 100)."% nie zrobione"; ?>
+                <div class="progress-bar progress-bar-danger" style="width: <?php echo $num_questions_percentage."%"; ?>">
+                    <?php echo $num_questions_percentage."% nie zrobione"; ?>
                 </div>
             </div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor magna, malesuada quis dapibus nec, condimentum eget lorem. Morbi nec ornare leo, et molestie ante. Sed laoreet nisi nec nisi varius sagittis. Nullam id dolor ut ligula commodo pellentesque. Maecenas a convallis ipsum. Integer quis facilisis nisi. Etiam scelerisque diam id nulla blandit lacinia. Mauris tempus fermentum risus, vitae maximus nunc commodo a.</p>

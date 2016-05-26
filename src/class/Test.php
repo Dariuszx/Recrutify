@@ -78,44 +78,53 @@ class Test {
 
     private function getQuestions() {
         $q_tmp = array();
-        $questions = $this->db->parseRows(
-            $this->db->executeSql("SELECT questions.*, IF(questions.question_id IN ( SELECT answers.question_id 
-                                                                                          FROM answers 
-                                                                                          JOIN test ON (answers.answer_id = test.answer_id) 
-                                                                                         WHERE test.user_id = $this->user_id
-                                                                                   ), 'true', 'false') as is_answered 
-                                      FROM questions 
-                                      WHERE questions.category_id=".$this->category_id));
 
+        //Pobieram listę pytań dla danego testu i jednocześnie ustalam czy udzielono już odpowiedzi na podane pytanie
+        $query = "SELECT questions.*, 
+                      IF(questions.question_id 
+                        IN ( SELECT answers.question_id 
+                              FROM answers 
+                              JOIN test ON (answers.answer_id = test.answer_id)  
+                              WHERE test.user_id = $this->user_id), 'true', 'false') as is_answered 
+                  FROM questions 
+                  WHERE questions.category_id=".$this->category_id;
 
+        $questions = $this->db->parseRows($this->db->executeSql($query));
+        if ($questions == null) throw new Exception("Brak pytań dla tego testu!");
+
+        //W tym miejscu iteruję po wyciągnietych pytaniach
         for ($i=0; $i < count($questions); $i++) {
             $q = new Question();
             $q->setQuestion($questions[$i]["content"]);
             $q->setQuestionId($questions[$i]["question_id"]);
             $q->setIsAnswered($questions[$i]["is_answered"]);
 
-            $answers = $this->db->parseRows(
-                $this->db->executeSql("SELECT answers.* FROM answers WHERE question_id =".$q->getQuestionId())
-            );
+            //Pobierarm wszystkie odpowiedzi dla pytania
+            $answers = $this->db->parseRows($this->db->executeSql("SELECT answers.* FROM answers WHERE question_id =".$q->getQuestionId()));
             $q->setAnswers($answers);
 
+            //Pobieram (jeżeli istnieje) id odpowiedzi dla danego pytania
             $result = $this->db->executeSql("SELECT test.answer_id AS id
                                                             FROM test JOIN answers ON (answers.answer_id = test.answer_id) 
                                                             WHERE answers.question_id = ".$q->getQuestionId()." AND test.user_id = $this->user_id LIMIT 1");
             if ($result->num_rows != 0)
                 $q->setSelectedAnswer($result->fetch_object()->id);
 
+            //Przypisuję stworzony obiekt do tablicy pytań dla danego testu
             $q_tmp[$i] = $q;
         }
 
         $this->questions = $q_tmp;
     }
 
-    public function getQuestion($question_id=0) {
+    public function getQuestion() {
+        for($i=0; $i<count($this->questions); $i++) {
+            if($this->questions[$i]->getIsAnswered() == 'false') {
+                return $this->questions[$i];
+            }
+        }
 
-        $query = "SELECT content FROM questions WHERE category_id = $this->category_id";
-        $category_name = $this->db->executeSql($query)->fetch_object()->content;
-        echo $category_name;
+        return null;
     }
     
     public function getCategoryName() {

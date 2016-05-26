@@ -13,6 +13,8 @@ class Database {
         $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
 //        $this->db = new mysqli('mysql9.000webhost.com', 'a3787787_db', 'poziom9', 'a3787787_db');
 
+        $this->db->set_charset("utf8");
+
         if (mysqli_connect_errno()) {
             throw new Exception("Failed to connect to MySQL: " . mysqli_connect_error());
         }
@@ -158,21 +160,37 @@ class Database {
         return $rows;
     }
 
-    public function getQuestions($user_id, $test_id) {
-
+//    public function getQuestions($user_id, $test_id) {
+//
+//        self::connect();
+//        $query = "SELECT question_id FROM questions
+//                    WHERE questions.question_id
+//                    NOT IN (
+//                      SELECT answers.question_id
+//                      FROM answers
+//                      JOIN test ON (answers.answer_id = test.answer_id)
+//                      WHERE test.user_id = $user_id)
+//                    AND questions.category_id = $test_id";
+//        $result = $this->db->query($query);
+//        $rows = $this->parseRows($result);
+//        self::disconnect();
+//        return $rows;
+//    }
+    
+    public function getCategoryAnswerStats($user_id, $category_id) {
         self::connect();
-        $query = "SELECT question_id FROM questions 
-                    WHERE questions.question_id 
-                    NOT IN (
-                      SELECT answers.question_id 
-                      FROM answers 
-                      JOIN test ON (answers.answer_id = test.answer_id) 
-                      WHERE test.user_id = $user_id) 
-                    AND questions.category_id = $test_id";
+        $query = "SELECT * FROM (SELECT COUNT(*) as num_questions FROM questions WHERE category_id = $category_id) as t_num_questions
+            JOIN (SELECT COUNT(*) as num_answered FROM test JOIN answers ON(test.answer_id = answers.answer_id) 
+                  							JOIN questions ON(questions.question_id = answers.question_id AND questions.category_id = $category_id)
+                  									WHERE test.user_id = $user_id) as t_num_answered";
         $result = $this->db->query($query);
-        $rows = $this->parseRows($result);
         self::disconnect();
-        return $rows;
+        
+        if($result->num_rows > 0) {
+            return $result->fetch_object();
+        } else {
+            throw new Exception("Nie ma pytań dla tego testu!");
+        }
     }
 
     public function getNumQuestions($category_id) {
