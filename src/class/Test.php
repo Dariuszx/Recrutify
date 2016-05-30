@@ -117,6 +117,18 @@ class Test {
         $this->questions = $q_tmp;
     }
 
+    public function answer($answer_id) {
+
+        $result = $this->db->executeSql("SELECT 1 FROM test WHERE user_id=".$this->user_id." AND answer_id=".$answer_id);
+
+        //Jeżeli aktualny użytkownik nie odpowiedział na dane pytanie
+        if($result->num_rows == 0) {
+            $result = $this->db->executeSql("INSERT INTO test (user_id, answer_id) VALUES (".$this->user_id.", ".$answer_id.")");
+            if(!$result) throw new Exception("Problem z udzielaniem odpowiedzi.");
+            else $this->getQuestions(); //Aktualizuje listę odpowiedzi
+        }
+    }
+
     public function getQuestion() {
         for($i=0; $i<count($this->questions); $i++) {
             if($this->questions[$i]->getIsAnswered() == 'false') {

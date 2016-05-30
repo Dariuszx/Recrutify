@@ -6,7 +6,7 @@
 ?>
 
 
-    <div class="container">
+    <div class="container wrapper">
 
         <div class="row">
             <div class="col-md-4 col-md-push-8">

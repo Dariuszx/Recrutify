@@ -13,7 +13,7 @@ $data->validateInputData($category_id);
     $statCategory = $db->getCategoryAnswerStats($_SESSION['user_id'], $category_id);
 
 if ($statCategory->num_questions > 0) {
-    $num_answered_percentage = $statCategory->num_answered / $statCategory->num_questions * 100;
+    $num_answered_percentage = intval($statCategory->num_answered / $statCategory->num_questions * 100);
     $num_questions_percentage = 100 - $num_answered_percentage;
 } else {
     $num_answered_percentage = 0;
@@ -30,8 +30,8 @@ include "src/templates/profile/header.html";
 ?>
 
 <!--<img class="test-image" src="src/resources/img/tester.png" />-->
-<div class="container">
-    <div class="panel panel-default row">
+<div class="container wrapper">
+    <div class="panel panel-default">
         <div class="panel-heading"><?php echo $test_title; ?></div>
         <div class="panel-body">
 

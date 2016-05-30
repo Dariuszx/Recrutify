@@ -12,23 +12,30 @@ $category_id = $_GET['test_id'];
 $data->validateInputData($category_id);
 try {
     $test = new Test($_SESSION['user_id'], $category_id, $db);
+
+    if(isset($_GET['answer_id']) and is_numeric($_GET['answer_id'])) {
+        $answer_id = $_GET['answer_id'];
+        $data->validateInputData($answer_id);
+        $test->answer($answer_id);
+    }
+
     $statCategory = $db->getCategoryAnswerStats($_SESSION['user_id'], $category_id);
     $question = $test->getQuestion();
+
 } catch (Exception $e) {
     header("location: notfound.php?message=" . $e->getMessage());
 }
-
 
 include "src/templates/profile/header.html";
 
 ?>
 
-<div class="container" style="margin-top: 5%;">
+<div class="container wrapper">
 
     <div class="progress progress-striped active">
         <div class="progress-bar progress-bar-success"
              style="width: <?php echo $statCategory->num_answered / $statCategory->num_questions * 100; ?>%">
-            <?php echo $statCategory->num_answered / $statCategory->num_questions * 100; ?>%
+            <?php echo intval($statCategory->num_answered / $statCategory->num_questions * 100); ?>%
         </div>
     </div>
 
@@ -38,17 +45,34 @@ include "src/templates/profile/header.html";
         </div>
         <div class="panel-body">
 
-            <h1><?php echo $question->getQuestion(); ?></h1>
+            <?php
+                if ($question != null) {
+                    ?>
 
-            <ul class="nav nav-pills nav-stacked">
-                <?php
-                for ($i = 0; $i < count($question->getAnswers()); $i++) {
-                    echo "<li><a href=\"#\">";
-                    echo $question->getAnswers()[$i]['content'];
-                    echo "</a></li>";
+                    <h1><?php echo $question->getQuestion(); ?></h1>
+
+                    <ul class="nav nav-pills nav-stacked">
+                        <?php
+                        for ($i = 0; $i < count($question->getAnswers()); $i++) {
+                            echo "<li><a href='start_test.php?test_id=" . $category_id . "&answer_id=" . $question->getAnswers()[$i]['answer_id'] . "'>";
+                            echo $question->getAnswers()[$i]['content'];
+                            echo "</a></li>";
+                        }
+                        ?>
+                    </ul>
+                    <?php
+                } else {
+                    ?>
+                    <div class="alert alert-dismissible alert-danger" style="width: 70%; margin: 20px auto 20px auto;">
+                        Udzielono odpowiedzi na wszystkie pytania dla tego testu!
+                        <p style="margin: 5px; text-align: center;">
+                            <a href="profile.php" class="btn btn-sm btn-danger">
+                                <i class="fa fa-undo" aria-hidden="true"></i> Powrót</a>
+                        </p>
+                    </div>
+                    <?php
                 }
-                ?>
-            </ul>
+            ?>
         </div>
     </div>
 </div>
