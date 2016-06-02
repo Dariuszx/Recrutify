@@ -193,6 +193,17 @@ class Database {
         }
     }
 
+    public function getUsername($user_id) {
+
+        $result = $this->executeSql("SELECT username FROM users WHERE user_id=".$user_id." LIMIT 1");
+        
+        if($result->num_rows != 0) {
+            return $result->fetch_object()->username;
+        }
+        
+        return "undefined username";
+    }
+
     public function getNumQuestions($category_id) {
 
         self::connect();

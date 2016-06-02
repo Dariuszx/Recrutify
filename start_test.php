@@ -19,8 +19,9 @@ try {
         $test->answer($answer_id);
     }
 
-    $statCategory = $db->getCategoryAnswerStats($_SESSION['user_id'], $category_id);
     $question = $test->getQuestion();
+    $statCategory = $db->getCategoryAnswerStats($_SESSION['user_id'], $category_id);
+
 
 } catch (Exception $e) {
     header("location: notfound.php?message=" . $e->getMessage());
@@ -53,9 +54,9 @@ include "src/templates/profile/header.html";
 
                     <ul class="nav nav-pills nav-stacked">
                         <?php
-                        for ($i = 0; $i < count($question->getAnswers()); $i++) {
-                            echo "<li><a href='start_test.php?test_id=" . $category_id . "&answer_id=" . $question->getAnswers()[$i]['answer_id'] . "'>";
-                            echo $question->getAnswers()[$i]['content'];
+                        foreach($question->getAnswers() as $answer) {
+                            echo "<li><a href='start_test.php?test_id=" . $category_id . "&answer_id=".$answer['answer_id']."'>";
+                            echo $answer['content'];
                             echo "</a></li>";
                         }
                         ?>

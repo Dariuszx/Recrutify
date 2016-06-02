@@ -119,7 +119,8 @@ class Test {
 
     public function answer($answer_id) {
 
-        $result = $this->db->executeSql("SELECT 1 FROM test WHERE user_id=".$this->user_id." AND answer_id=".$answer_id);
+        $query = "SELECT 1 FROM test JOIN answers ON(answers.answer_id=test.answer_id)  WHERE test.user_id=$this->user_id AND answers.question_id IN (SELECT question_id FROM answers WHERE answer_id=$answer_id)";
+        $result = $this->db->executeSql($query);
 
         //Jeżeli aktualny użytkownik nie odpowiedział na dane pytanie
         if($result->num_rows == 0) {
