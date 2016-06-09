@@ -35,6 +35,7 @@ include "src/templates/profile/header.html";
 
     <div class="progress progress-striped active">
         <div class="progress-bar progress-bar-success"
+
              style="width: <?php echo $statCategory->num_answered / $statCategory->num_questions * 100; ?>%">
             <?php echo intval($statCategory->num_answered / $statCategory->num_questions * 100); ?>%
         </div>
@@ -43,14 +44,16 @@ include "src/templates/profile/header.html";
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title"><?php echo $test->getCategoryName(); ?></h3>
+
         </div>
         <div class="panel-body">
-
+            <a href="test.php?test_id=<?php echo $category_id; ?>" class="btn btn-primary btn-sm pull-right"><i class="fa fa-undo" aria-hidden="true"></i> Powrót</a>
             <?php
                 if ($question != null) {
                     ?>
 
-                    <h1><?php echo $question->getQuestion(); ?></h1>
+                    <h3><?php echo $question->getQuestion(); ?></h3>
+
 
                     <ul class="nav nav-pills nav-stacked">
                         <?php
@@ -64,10 +67,10 @@ include "src/templates/profile/header.html";
                     <?php
                 } else {
                     ?>
-                    <div class="alert alert-dismissible alert-danger" style="width: 70%; margin: 20px auto 20px auto;">
-                        Udzielono odpowiedzi na wszystkie pytania dla tego testu!
+                    <div class="alert alert-dismissible alert-success" style="width: 70%; margin: 20px auto 20px auto;">
+                        <p>Udzielono odpowiedzi na wszystkie pytania dla tego testu!</p>
                         <p style="margin: 5px; text-align: center;">
-                            <a href="profile.php" class="btn btn-sm btn-danger">
+                            <a href="profile.php" class="btn btn-sm btn-success">
                                 <i class="fa fa-undo" aria-hidden="true"></i> Powrót</a>
                         </p>
                     </div>

@@ -34,3 +34,7 @@ body {
 	color: #fff;
 	text-align: left;
 }
+
+.form-group select {
+	padding: 0;
+}

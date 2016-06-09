@@ -31,6 +31,16 @@ class Database {
         return $result;
     }
 
+    public function getUserRole($user_id) {
+        $result = self::executeSql("SELECT employer FROM users WHERE user_id=$user_id");
+
+        if($result->num_rows != 0) {
+            $obj = $result->fetch_object();
+            return $obj->employer;
+        }
+        return -1;
+    }
+
     public function insertUser($array) {
 
         $this->connect();
@@ -40,6 +50,7 @@ class Database {
         $employer = $array['employer'];
         $password = $array['password'];
         $salt = $array['salt'];
+        $stanowisko = $array['stanowisko'];
         $password_plain = $array['password_plain'];
 
         if( self::isUserExist($nickname) )
@@ -51,7 +62,7 @@ class Database {
         echo "$employer <- employer";
 
         //dev
-        $query = "INSERT INTO users (username, employer, email, salt, password) VALUES ('$nickname', '$employer', '$email', '$salt', '$password')";
+        $query = "INSERT INTO users (username, employer, position_id, email, salt, password) VALUES ('$nickname', '$employer', '$stanowisko', '$email', '$salt', '$password')";
         //prod
 //        $query = "INSERT INTO users (username, email, salt, password, password_plain) VALUES ('$nickname', '$email', '$salt', '$password')";
 
@@ -144,7 +155,7 @@ class Database {
         $rows = array();
 
         for( $i=0; $i< $result->num_rows; $i++)
-            $rows[$i] = $result->fetch_array();
+            $rows[$i] = $result->fetch_array(MYSQL_BOTH);
 
         self::disconnect();
 
@@ -191,6 +202,16 @@ class Database {
         } else {
             throw new Exception("Nie ma pytań dla tego testu!");
         }
+    }
+
+    public function getStanowisko($user_id) {
+        $result = self::executeSql("SELECT positions.name AS name FROM users JOIN positions ON(users.position_id=positions.position_id) WHERE users.user_id = $user_id");
+
+        if($result->num_rows > 0) {
+            $obj = $result->fetch_object();
+            return $obj->name;
+        }
+        return "undefined";
     }
 
     public function getUsername($user_id) {

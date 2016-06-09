@@ -5,6 +5,11 @@ include_once("tools.php");
 
 $error='';
 
+$database = new Database();
+$userData = new UserData();
+
+$stanowiska = $database->parseRows($database->executeSql("SELECT * FROM positions"));
+
 if (isset($_POST['submit'])) {
 
     try {
@@ -12,12 +17,14 @@ if (isset($_POST['submit'])) {
         if( $_POST['password1'] != $_POST['password2'])
             throw new Exception("Passwords are not the same!");
 
-        $database = new Database();
-        $userData = new UserData();
+        if($_POST['selectStanowisko'] == -1)
+            throw new Exception("Nie wybrano stanowiska!");
+
 
         $userData->setNickname($_POST['username']);
         $userData->setPassword($_POST['password1']);
         $userData->setEmail($_POST['email']);
+        $userData->setStanowisko($_POST['selectStanowisko']);
         
         if(isset($_POST['employer']))
             $userData->setEmployer(1);

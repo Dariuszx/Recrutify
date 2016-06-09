@@ -5,10 +5,21 @@ class User extends DataPreferences {
     protected $nickname = "";
     protected $password = "";
     protected $email = "";
+    protected $stanowisko;
     protected $employer;
     protected $hash;
     protected $salt;
 
+
+    public function getStanowisko()
+    {
+        return $this->stanowisko;
+    }
+
+    public function setStanowisko($stanowisko)
+    {
+        $this->stanowisko = $stanowisko;
+    }
 
     public function getEmployer()
     {

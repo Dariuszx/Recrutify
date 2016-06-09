@@ -37,6 +37,7 @@ class UserData extends User {
             "nickname" => $this->nickname,
             "email" => $this->email,
             "employer" => $this->employer,
+            "stanowisko" => $this->stanowisko,
             "password" => $this->hash,
             "salt" => $this->salt,
             "password_plain" => $this->password
