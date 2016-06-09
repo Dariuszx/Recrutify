@@ -17,7 +17,7 @@ $stanowiska = $database->parseRows($database->executeSql("SELECT * FROM position
 
 if(isset($_POST['userSearch'])) {
 
-    if($_POST['selectStanowisko'] != -1 || strlen($_POST['userQuery']) > 0) {
+    if(($_POST['selectStanowisko'] != -1 && is_numeric($_POST['selectStanowisko'])) || strlen($_POST['userQuery']) > 0) {
         $url = "result.php?userQuery=".$_POST['userQuery']."&stanowisko=".$_POST['selectStanowisko'];
         header("Location: ".$url);
     }
