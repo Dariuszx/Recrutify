@@ -29,9 +29,9 @@ $data->validateInputData($stanowisko_id);
 $data->validateInputData($userQuery);
 
 if (is_numeric($stanowisko_id) && $database->executeSql("SELECT 1 FROM positions WHERE position_id=$stanowisko_id")->num_rows != 0)
-    $query = "SELECT * FROM users WHERE username LIKE '%$userQuery%' AND position_id = $stanowisko_id";
+    $query = "SELECT * FROM users JOIN positions ON(users.position_id=positions.position_id) WHERE username LIKE '%$userQuery%' AND position_id = $stanowisko_id";
 else if (strlen($userQuery) > 0)
-    $query = "SELECT * FROM users WHERE username LIKE '%$userQuery%'";
+    $query = "SELECT * FROM users JOIN positions ON(users.position_id=positions.position_id) WHERE username LIKE '%$userQuery%'";
 
 
 if (isset($query))
@@ -44,8 +44,10 @@ include "src/templates/profile/header.html";
 
 <div class="container wrapper">
 
-    <a href="employer-profile.php" class="btn btn-primary btn-sm"><i class="fa fa-undo"
-                                                                     aria-hidden="true"></i> Powrót</a>
+        <div style="margin-bottom: 15px; margin-left: 3px;">
+            <a href="employer-profile.php" class="btn btn-primary btn-sm"><i class="fa fa-undo"
+                                                                             aria-hidden="true"></i> Powrót</a>
+        </div>
 
     <div class="col-md-offset-2 col-md-8">
         <div class="panel panel-default">
@@ -56,7 +58,7 @@ include "src/templates/profile/header.html";
                         <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-users"
                                                                            aria-hidden="true"></i></span>
-                            <input type="text" name="userQuery" class="form-control"/>
+                            <input type="text" name="userQuery" class="form-control" value="<?php echo $userQuery; ?>"/>
                         </div>
                     </div>
                     <div class="form-group col-md-5">
@@ -81,23 +83,18 @@ include "src/templates/profile/header.html";
         ?>
         <div class="col-md-offset-2 col-md-8">
             <div class="panel panel-default">
-                <div class="panel-heading">Panel heading</div>
+                <div class="panel-heading">Wyniki wyszukiwania</div>
                 <div class="panel-body" style="padding: 0px;">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <td>#</td>
-                            <td>Nazwa użytkownika</td>
-                            <td>Akcje</td>
-                        </tr>
-                        </thead>
+                    <table class="table table-striped table-hover" style="margin-top: 15px; margin-bottom: 0px;">
                         <tbody>
                         <?php
                         for ($i = 0; $i < count($users); $i++) {
+                            $url = "user-profile.php?user_id=" . $users[$i]['user_id'] . "&userQuery=" . $userQuery . "&stanowisko=" . $stanowisko_id;
                             echo "<tr>";
-                            echo "<td>".($i+1)."</td>";
-                            echo "<td>" . $users[$i]['username'] . "</td>";
-                            echo "<td>akcje jakies</td>";
+                            echo "<td style='width: 5%;'>#" . ($i + 1) . "</td>";
+                            echo "<td style='width: 75%;'><a href='$url' class='btn btn-xs btn-link'>" . $users[$i]['username'] . "</a></td>";
+                            echo "<td>".$users[$i]['name']."</td>";
+                            echo "<td><a href='#'><i class=\"fa fa-envelope\" aria-hidden=\"true\"></i></a></td>";
                             echo "</tr>";
                         }
                         ?>

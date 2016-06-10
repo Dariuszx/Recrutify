@@ -52,3 +52,8 @@ include "src/templates/profile/header.html";
     </div>
 </div>
 
+<?php
+
+include_once "src/templates/commons/footer.html";
+
+?>

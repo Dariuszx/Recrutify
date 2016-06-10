@@ -88,3 +88,10 @@
 .user-button {
     margin: 15px 0;
 }
+
+.panel-stripe {
+    background-color: #a4c574;
+    width: 100%;
+    padding: 15px 5px;
+    margin-top: 20px;
+}
