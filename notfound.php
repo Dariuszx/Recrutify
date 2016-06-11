@@ -1,7 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dariusz
- * Date: 19.05.16
- * Time: 22:28
- */
+
+include('src/session.php');
+
+include_once 'src/tools.php';
+
+include "src/templates/profile/header.html";
+
+?>
+
+<div class="container wrapper">
+    Not found
+</div>
+
+<?php
+
+include_once "src/templates/commons/footer.html";
+
+?>
