@@ -35,6 +35,37 @@ else
     $url_revert = "result.php?userQuery=" . $userQuery . "&stanowisko=" . $stanowisko_id;
 
 
+$categories = $database->getCategories();
+$test_results = array();
+
+for ($i = 0; $i < count($categories); $i++) {
+    $result = $database->executeSql("SELECT SUM(answers.correct) AS result FROM questions 
+                                          JOIN answers ON(answers.question_id=questions.question_id) 
+                                          JOIN test ON(test.answer_id=answers.answer_id) 
+                                          WHERE test.user_id = " . $user_id . " AND questions.category_id = " . $categories[$i]['category_id']);
+
+    if ($result->num_rows == 0) break;
+
+    $obj = $result->fetch_object();
+    $wynik = $obj->result;
+
+    $result = $database->executeSql("SELECT COUNT(*) AS count FROM questions WHERE category_id=" . $categories[$i]['category_id']);
+    if ($result->num_rows == 0) break;
+    $obj = $result->fetch_object();
+    $iloscPytan = $obj->count;
+
+
+    $tmp = array(
+        "name" => $categories[$i]['name'],
+        "correct" => $wynik == NULL ? 0 : $wynik,
+        "maxScore" => $iloscPytan
+    );
+    array_push($test_results, $tmp);
+}
+
+//var_dump($test_results);
+
+
 include "src/templates/profile/header.html";
 
 
@@ -70,7 +101,8 @@ include "src/templates/profile/header.html";
                             <div class="user-button">
                                 <div class="row">
                                     <div class="col-md-offset-3 col-md-6">
-                                        <a href="send-message.php" class="btn btn-success btn-sm btn-block"><i
+                                        <a href="send-message.php?receiver_id=<?php echo $user_id; ?>"
+                                           class="btn btn-success btn-sm btn-block"><i
                                                 class="fa fa-envelope"></i> Wyślij wiadomość</a>
                                     </div>
                                 </div>
@@ -85,7 +117,33 @@ include "src/templates/profile/header.html";
             <div class="panel panel-default">
                 <div class="panel-heading">Testy użytkownika</div>
                 <div class="panel-body">
-                    Panel content
+
+                    <?php
+
+                    for ($i = 0; $i < count($test_results); $i++) {
+                        $category = $test_results[$i];
+
+                        $correct_percentage = $category['maxScore'] > 0 ? $category['correct'] / $category['maxScore'] * 100 : 100;
+                        $wrong_percentage = 100 - $correct_percentage;
+
+                        echo "<h3>" . $category['name'] . "</h3>";
+                        echo "<p><b>Poprawnych odpowiedzi:</b> ".$category['correct']." (".$correct_percentage."%)</p>"
+
+                        ?>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: <?php echo $correct_percentage; ?>%"></div>
+                            <div class="progress-bar progress-bar-danger" style="width: <?php echo $wrong_percentage; ?>%"></div>
+                        </div>
+
+                        <?php
+
+                        echo "<hr />";
+                    }
+
+                    ?>
+
+                    <hr/>
+
                 </div>
             </div>
         </div>

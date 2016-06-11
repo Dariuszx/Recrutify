@@ -222,7 +222,7 @@ class Database {
             return $result->fetch_object()->username;
         }
         
-        return "undefined username";
+        return false;
     }
 
     public function getNumQuestions($category_id) {

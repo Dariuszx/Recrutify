@@ -94,7 +94,7 @@ include "src/templates/profile/header.html";
                             echo "<td style='width: 5%;'>#" . ($i + 1) . "</td>";
                             echo "<td style='width: 75%;'><a href='$url' class='btn btn-xs btn-link'>" . $users[$i]['username'] . "</a></td>";
                             echo "<td>".$users[$i]['name']."</td>";
-                            echo "<td><a href='#'><i class=\"fa fa-envelope\" aria-hidden=\"true\"></i></a></td>";
+                            echo "<td><a href='send-message.php?receiver_id=".$users[$i]['user_id']."'><i class=\"fa fa-envelope\" aria-hidden=\"true\"></i></a></td>";
                             echo "</tr>";
                         }
                         ?>
