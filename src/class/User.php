@@ -6,7 +6,6 @@ class User extends DataPreferences {
     protected $password = "";
     protected $email = "";
     protected $stanowisko;
-    protected $employer;
     protected $hash;
     protected $salt;
 
@@ -19,16 +18,6 @@ class User extends DataPreferences {
     public function setStanowisko($stanowisko)
     {
         $this->stanowisko = $stanowisko;
-    }
-
-    public function getEmployer()
-    {
-        return $this->employer;
-    }
-
-    public function setEmployer($employer)
-    {
-        $this->employer = $employer;
     }
 
     public function getNickname()

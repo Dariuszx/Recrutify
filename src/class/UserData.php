@@ -36,7 +36,6 @@ class UserData extends User {
         $array = array(
             "nickname" => $this->nickname,
             "email" => $this->email,
-            "employer" => $this->employer,
             "stanowisko" => $this->stanowisko,
             "password" => $this->hash,
             "salt" => $this->salt,

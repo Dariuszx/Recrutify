@@ -26,9 +26,9 @@ if (isset($_POST['submit'])) {
         $userData->setEmail($_POST['email']);
         $userData->setStanowisko($_POST['selectStanowisko']);
         
-        if(isset($_POST['employer']))
-            $userData->setEmployer(1);
-        else $userData->setEmployer(0);
+//        if(isset($_POST['employer']))
+//            $userData->setEmployer(1);
+//        else $userData->setEmployer(0);
         
         $validatedData = $userData->getData();
 

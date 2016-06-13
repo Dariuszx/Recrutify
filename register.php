@@ -71,7 +71,7 @@ include "src/templates/commons/header.html";
                                 </div>
                                 <div class="form-group">
                                             <select class="form-control" name="selectStanowisko" id="selectStanowisko">
-                                                <option value="-1">Stanowisko</option>
+                                                <option value="-1">Wybierz stanowisko</option>
                                                 <?php
                                                     for($i=0; $i < count($stanowiska); $i++)
                                                         echo "<option value='".$stanowiska[$i]["position_id"]."'>".$stanowiska[$i]["name"]."</option>";
@@ -79,9 +79,6 @@ include "src/templates/commons/header.html";
                                             </select>
                                 </div>
 
-                                <div class="form-group checkbox">
-                                    <label><input type="checkbox" name="employer">Pracodwaca</label>
-                                </div>
 
                                 <p style="text-align: center; margin: 5px 0px 0px 0px;"><img " id="captcha"
                                     src="src/lib/securimage/securimage_show.php" alt="CAPTCHA" /></p>

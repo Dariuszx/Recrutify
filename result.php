@@ -29,7 +29,7 @@ $data->validateInputData($stanowisko_id);
 $data->validateInputData($userQuery);
 
 if (is_numeric($stanowisko_id) && $database->executeSql("SELECT 1 FROM positions WHERE position_id=$stanowisko_id")->num_rows != 0)
-    $query = "SELECT * FROM users JOIN positions ON(users.position_id=positions.position_id) WHERE username LIKE '%$userQuery%' AND position_id = $stanowisko_id";
+    $query = "SELECT * FROM users JOIN positions ON(users.position_id=positions.position_id) WHERE username LIKE '%$userQuery%' AND users.position_id = $stanowisko_id";
 else if (strlen($userQuery) > 0)
     $query = "SELECT * FROM users JOIN positions ON(users.position_id=positions.position_id) WHERE username LIKE '%$userQuery%'";
 

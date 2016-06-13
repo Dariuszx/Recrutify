@@ -32,11 +32,11 @@ class Database {
     }
 
     public function getUserRole($user_id) {
-        $result = self::executeSql("SELECT employer FROM users WHERE user_id=$user_id");
+        $result = self::executeSql("SELECT positions.name AS position FROM users JOIN positions ON (users.position_id = positions.position_id) WHERE users.user_id = ".$user_id);
 
         if($result->num_rows != 0) {
             $obj = $result->fetch_object();
-            return $obj->employer;
+            return $obj->position == "Pracodawca" ? 1 : 0;
         }
         return -1;
     }
@@ -47,11 +47,9 @@ class Database {
 
         $nickname = $this->db->real_escape_string($array['nickname']);
         $email = $this->db->real_escape_string($array['email']);
-        $employer = $array['employer'];
         $password = $array['password'];
         $salt = $array['salt'];
         $stanowisko = $array['stanowisko'];
-        $password_plain = $array['password_plain'];
 
         if( self::isUserExist($nickname) )
             throw new Exception("Wybrana nazwa użytkownika jest już w użyciu.");
@@ -59,10 +57,8 @@ class Database {
         if( self::checkEmail($email) != -1 )
             throw new Exception("Na podany adres email zarejestrowano już konto.");
 
-        echo "$employer <- employer";
-
         //dev
-        $query = "INSERT INTO users (username, employer, position_id, email, salt, password) VALUES ('$nickname', '$employer', '$stanowisko', '$email', '$salt', '$password')";
+        $query = "INSERT INTO users (username, position_id, email, salt, password) VALUES ('$nickname', '$stanowisko', '$email', '$salt', '$password')";
         //prod
 //        $query = "INSERT INTO users (username, email, salt, password, password_plain) VALUES ('$nickname', '$email', '$salt', '$password')";
 

@@ -36,10 +36,7 @@ try {
 include "src/templates/profile/header.html";
 
 ?>
-    <div class="container wrapper">o
-
-
-
+    <div class="container wrapper">
         <div class="well well-sm">
             <h4><b>Tytuł:</b> <?php echo $message->subject; ?></h4>
         </div>
