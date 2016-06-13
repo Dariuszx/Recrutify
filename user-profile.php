@@ -127,7 +127,7 @@ include "src/templates/profile/header.html";
                         $wrong_percentage = 100 - $correct_percentage;
 
                         echo "<h3>" . $category['name'] . "</h3>";
-                        echo "<p><b>Poprawnych odpowiedzi:</b> ".$category['correct']." (".$correct_percentage."%)</p>"
+                        echo "<p><b>Poprawnych odpowiedzi:</b> ".$category['correct']." (".intval($correct_percentage)."%)</p>"
 
                         ?>
                         <div class="progress">

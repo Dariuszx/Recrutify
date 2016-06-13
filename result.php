@@ -18,7 +18,7 @@ $stanowiska = $database->parseRows($database->executeSql("SELECT * FROM position
 $stanowisko_id = $_GET['stanowisko'];
 $userQuery = $_GET['userQuery'];
 
-$users = [];
+$users = array();
 
 if (isset($_POST['userSearch'])) {
     $stanowisko_id = $_POST['selectStanowisko'];

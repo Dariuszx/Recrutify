@@ -25,6 +25,8 @@ try {
     //TODO dopisać reszte widoku
     $message = $result->fetch_object();
 
+    if(strlen($message->subject) == 0) $message->subject = "Brak tytułu";
+
 
 } catch (Exception $e) {
     header("Location: index.php");
@@ -34,7 +36,7 @@ try {
 include "src/templates/profile/header.html";
 
 ?>
-    <div class="container wrapper">
+    <div class="container wrapper">o
 
 
 
