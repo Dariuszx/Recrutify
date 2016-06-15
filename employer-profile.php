@@ -15,11 +15,11 @@ $stanowisko = $database->getStanowisko($_SESSION['user_id']);
 $tests = $database->getCategories();
 $stanowiska = $database->parseRows($database->executeSql("SELECT * FROM positions"));
 
-if(isset($_POST['userSearch'])) {
+if (isset($_POST['userSearch'])) {
 
-    if(($_POST['selectStanowisko'] != -1 && is_numeric($_POST['selectStanowisko'])) || strlen($_POST['userQuery']) > 0) {
-        $url = "result.php?userQuery=".$_POST['userQuery']."&stanowisko=".$_POST['selectStanowisko'];
-        header("Location: ".$url);
+    if (($_POST['selectStanowisko'] != -1 && is_numeric($_POST['selectStanowisko'])) || strlen($_POST['userQuery']) > 0) {
+        $url = "result.php?userQuery=" . $_POST['userQuery'] . "&stanowisko=" . $_POST['selectStanowisko'];
+        header("Location: " . $url);
     }
 }
 
@@ -44,17 +44,15 @@ include "src/templates/profile/header.html";
                                      alt="User avatar">
                                 <h5><b>Nazwa użytkownika:</b> <?php echo $username; ?></h5>
                                 <p><b>Stanowisko:</b> <?php echo $stanowisko; ?></p>
-                                <div class="user-button">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a href="inbox.php" class="btn btn-primary btn-sm btn-block"><i
-                                                    class="fa fa-envelope"></i> Skrzynka odbiorcza</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="send-message.php" class="btn btn-default btn-sm btn-block"><i
-                                                    class="fa fa-envelope"></i> Wyślij wiadomość</a>
-                                        </div>
-                                    </div>
+                                <div class="user-button user-profile-buttons">
+                                    <a href="inbox.php" class="btn btn-primary btn-sm btn-block"><i
+                                            class="fa fa-envelope"></i> Skrzynka odbiorcza</a>
+                                    <a href="send-message.php" class="btn btn-default btn-sm btn-block"><i
+                                            class="fa fa-envelope"></i> Wyślij wiadomość</a>
+                                    <a href="company-data.php" class="btn btn-primary btn-sm btn-block"><i
+                                            class="fa fa-pencil-square-o" aria-hidden="true"></i> Dane firmy</a>
+
+
                                 </div>
                             </div>
                         </div>

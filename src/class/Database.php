@@ -81,6 +81,15 @@ class Database {
         return $user_id;
     }
 
+    public function getCompanyData($employer_id) {
+
+        $query = "SELECT * FROM companies WHERE employer_id = ".$employer_id;
+        $result = $this->executeSql($query);
+
+        if($result->num_rows == 0) return 0;
+        else return $result->fetch_object();
+    }
+
     public function isUserExist($nickname) {
         $query = "SELECT 1 FROM users WHERE username='$nickname'";
         $result = $this->db->query($query);

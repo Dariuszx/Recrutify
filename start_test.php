@@ -47,7 +47,8 @@ include "src/templates/profile/header.html";
 
         </div>
         <div class="panel-body">
-            <a href="test.php?test_id=<?php echo $category_id; ?>" class="btn btn-primary btn-sm pull-right"><i class="fa fa-undo" aria-hidden="true"></i> Powrót</a>
+            <a href="test.php?test_id=<?php echo $category_id; ?>" class="btn btn-primary btn-sm pull-right"><i
+                    class="fa fa-undo" aria-hidden="true"></i> Powrót</a>
             <?php
                 if ($question != null) {
                     ?>
