@@ -18,6 +18,14 @@ $data->validateInputData($user_id);
 $username = $database->getUsername($user_id);
 $stanowisko = $database->getStanowisko($user_id);
 
+if($stanowisko == "undefined") {
+    header("location: notfound.php?message=Nie%20ma%20takiego%20użytkownika!");
+}
+
+if ($stanowisko == "Pracodawca") {
+    $company_data = $database->getCompanyData($user_id);
+}
+
 $userQuery = "";
 $stanowisko_id = -1;
 
@@ -98,14 +106,9 @@ include "src/templates/profile/header.html";
                                  alt="User avatar">
                             <h5><b>Nazwa użytkownika:</b> <?php echo $username; ?></h5>
                             <p><b>Stanowisko:</b> <?php echo $stanowisko; ?></p>
-                            <div class="user-button">
-                                <div class="row">
-                                    <div class="col-md-offset-3 col-md-6">
-                                        <a href="send-message.php?receiver_id=<?php echo $user_id; ?>"
-                                           class="btn btn-success btn-sm btn-block"><i
-                                                class="fa fa-envelope"></i> Wyślij wiadomość</a>
-                                    </div>
-                                </div>
+                            <div class="user-button user-profile-buttons">
+                                <a href="inbox.php" class="btn btn-primary btn-sm btn-block"><i
+                                        class="fa fa-envelope"></i> Skrzynka odbiorcza</a>
                             </div>
                         </div>
                     </div>
@@ -114,38 +117,110 @@ include "src/templates/profile/header.html";
         </div>
         <div class="col-md-8 col-md-pull-4">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Testy użytkownika</div>
-                <div class="panel-body">
+            <?php
+            if ($stanowisko != "Pracodawca") {
 
-                    <?php
+                ?>
 
-                    for ($i = 0; $i < count($test_results); $i++) {
-                        $category = $test_results[$i];
-
-                        $correct_percentage = $category['maxScore'] > 0 ? $category['correct'] / $category['maxScore'] * 100 : 100;
-                        $wrong_percentage = 100 - $correct_percentage;
-
-                        echo "<h3>" . $category['name'] . "</h3>";
-                        echo "<p><b>Poprawnych odpowiedzi:</b> ".$category['correct']." (".intval($correct_percentage)."%)</p>"
-
-                        ?>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-success" style="width: <?php echo $correct_percentage; ?>%"></div>
-                            <div class="progress-bar progress-bar-danger" style="width: <?php echo $wrong_percentage; ?>%"></div>
-                        </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Testy użytkownika</div>
+                    <div class="panel-body">
 
                         <?php
 
-                        echo "<hr />";
-                    }
+                        for ($i = 0; $i < count($test_results); $i++) {
+                            $category = $test_results[$i];
 
-                    ?>
+                            $correct_percentage = $category['maxScore'] > 0 ? $category['correct'] / $category['maxScore'] * 100 : 100;
+                            $wrong_percentage = 100 - $correct_percentage;
 
-                    <hr/>
+                            echo "<h3>" . $category['name'] . "</h3>";
+                            echo "<p><b>Poprawnych odpowiedzi:</b> " . $category['correct'] . " (" . intval($correct_percentage) . "%)</p>"
 
+                            ?>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success"
+                                     style="width: <?php echo $correct_percentage; ?>%"></div>
+                                <div class="progress-bar progress-bar-danger"
+                                     style="width: <?php echo $wrong_percentage; ?>%"></div>
+                            </div>
+
+                            <?php
+
+                            echo "<hr />";
+                        }
+
+                        ?>
+
+                        <hr/>
+
+                    </div>
                 </div>
-            </div>
+
+                <?php
+            } else {
+                ?>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Dane firmy</div>
+                    <div class="panel-body">
+                        <?php
+                        if (is_object($company_data)) {
+
+                            ?>
+                            <table class="table table-hover">
+
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 20%;">Nazwa firmy</td>
+                                        <td><?php echo $company_data->name; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Opis</td>
+                                        <td><?php echo $company_data->description; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NIP</td>
+                                        <td><?php echo $company_data->nip; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>REGON</td>
+                                        <td><?php echo $company_data->regon; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Miasto</td>
+                                        <td><?php echo $company_data->city; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ulica</td>
+                                        <td><?php echo $company_data->street; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kod pocztowy</td>
+                                        <td><?php echo $company_data->postal_code; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Numer telefonu</td>
+                                        <td><?php echo $company_data->phone; ?></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                            <?php
+                        } else {
+                            ?>
+                            <h3 style="text-align: center;">Brak danych firmy <i class="fa fa-meh-o" aria-hidden="true"></i></h3>
+                            <?php
+                        }
+                        ?>
+
+                    </div>
+                </div>
+
+                <?php
+            }
+            ?>
         </div>
     </div>
 

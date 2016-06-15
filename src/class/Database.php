@@ -10,8 +10,8 @@ class Database {
     }
 
     public function connect() {
-        $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
-//        $this->db = new mysqli('mysql9.000webhost.com', 'a3787787_db', 'poziom9', 'a3787787_db');
+//        $this->db = new mysqli('localhost', 'recrutify', 'poziom9', 'recrutify');
+        $this->db = new mysqli('mysql9.000webhost.com', 'a3787787_db', 'poziom9', 'a3787787_db');
 
         $this->db->set_charset("utf8");
 

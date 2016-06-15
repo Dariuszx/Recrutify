@@ -28,6 +28,8 @@ include "src/templates/profile/header.html";
                                             <a href="inbox.php" class="btn btn-primary btn-sm btn-block"><i
                                                     class="fa fa-envelope"></i> Skrzynka odbiorcza</a>
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>
